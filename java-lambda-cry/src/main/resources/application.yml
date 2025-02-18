@@ -1,0 +1,18 @@
+# Reduce logging level to make sure the application works with SAM local
+# https://github.com/aws/serverless-java-container/issues/134
+logging:
+  level:
+    root: WARN
+key:
+  path:
+    public: public_key.pem
+    private: private_key.pem
+jwt:
+  secret: u7NBGK9za2UERr4SFRhH+3x5Uv+q2KYMKVRc92l+jBM=
+  ttl: 36000000
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false

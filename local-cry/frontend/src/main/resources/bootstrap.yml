@@ -1,0 +1,15 @@
+#server:
+#  port: 64202
+#spring:
+#  application:
+#    name: Cry-service
+#  cloud:
+#    nacos:
+#      discovery:
+#        autoRegister: true # Nacos服务自动注册
+#        server-addr: 192.168.33.11:8848
+#        group: DEFAULT_GROUP_Cry
+#      config:
+#        server-addr: 192.168.33.11:8848
+#        file-extension: yml
+#        group: DEFAULT_GROUP_Cry

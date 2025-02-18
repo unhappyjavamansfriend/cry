@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypt times</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/1.3.1/forge.min.js"></script>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #1E1E1E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+
+
+  .converter-container {
+    background: #2C2C2C;
+    color: #E0E0E0;
+    /* background-color: #fff; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+  }
+
+  .converter-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  button{
+    padding: 10px 20px;
+    background-color: #1ba0ef;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  a{
+    padding: 10px 20px;
+    background-color: #1ba0ef;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration:none;
+  }
+
+  a:hover {
+    background-color: #0056b3;
+  }
+  
+  .format-label {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #333;
+  }
+
+  .download-button {
+    margin-top: 20px;
+    display: block;
+  }
+
+
+  input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+
+.switch { /*==設定開關鈕的長寬==*/
+    position: relative;
+    width: 85px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .switch-checkbox {
+   position: absolute;
+   display: none;
+  }
+  .switch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  .switch-txt {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+  }
+  .switch-txt::before,
+  .switch-txt::after {
+    display: block;
+    float: right;
+    width: 50%;
+    font-size: 13px;
+    color: #fff;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+  /*==開關鈕底色(開啟時)==*/
+  .switch-txt::after {
+    content: attr(turnOn);
+    padding-left: -30px;
+    background: #1ba0ef;
+    color: #fff;
+  }
+  /*開關鈕底色(關閉時)*/
+  .switch-txt::before {
+    content: attr(turnOff);
+    padding-right: 10px;
+    background: #eee;
+    color: #ccc;
+    text-align: right;
+  }
+  /*==開關鈕的顏色與大小==*/
+  .switch-Round-btn {
+    position: absolute;
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin: 2px;
+    background: #fff;
+    top: 0;
+    bottom: 0;
+    right: 55px; /* 按鈕位置*/
+    border-radius: 13px;
+    transition: all 0.3s ease-in 0s;
+  }
+  .switch-checkbox:checked + .switch-label .switch-txt {
+    margin-left: 0;
+  }
+  .switch-checkbox:checked + .switch-label .switch-Round-btn{
+    right: 0;
+  }
+
+
+/* loading css*/
+.loader1 {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #1ba0ef;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+
+  .loader2 {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #1386c9;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .loader-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  .loader-percentage {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+
+  .button-container {
+    display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+
+.error {
+  color: #ff3333;
+  margin-top: 10px;
+  text-align: center;
+  word-break: break-all;  /* 讓長字串在任何地方換行 */
+  overflow-wrap: break-word; /* 確保單字超出時也換行 */
+  white-space: normal; /* 允許正常換行 */
+  max-width: 100%; /* 確保不超出父容器 */
+}
+
+.success {
+  color: #33aa33;
+  margin-top: 10px;
+  text-align: center;
+  word-break: break-all;  /* 讓長字串在任何地方換行 */
+  overflow-wrap: break-word; /* 確保單字超出時也換行 */
+  white-space: normal; /* 允許正常換行 */
+  max-width: 100%; /* 確保不超出父容器 */
+}
+
+     /* 🔹 白色模式 */
+     .light-mode {
+      background-color: #414242;
+      color: #333;
+    }
+
+    .light-mode .converter-container {
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="converter-container">
+      <div class="button-container">
+        <h1>Let's go {{ format.toUpperCase() }}!</h1>
+        <!-- <a href="http://localhost:8080/swagger-ui/index.html" target="_blank">swagger</a> -->
+        <div class="switch">
+          <input v-model="isLight" class="switch-checkbox" id="switchID2" type="checkbox" name="switch-checkbox">
+          <label class="switch-label" for="switchID2">
+            <span class="switch-txt" turnOn="light" turnOff="dark":data-format="isLight ? 'light' : 'dark'"></span>
+            <span class="switch-Round-btn"></span>
+          </label>
+        </div>
+      </div>
+
+        <div v-if="isCrypt" class="input-container">
+          <input type="text" v-model="itemname" placeholder="itemname..." required>
+          <input type="text" v-model="username" placeholder="username..." required>
+          <input type="text" style="margin-right: 0px;" v-model="password" placeholder="password..." required>
+        </div>
+
+        <div v-if="!isCrypt" class="input-container">
+          <input type="text" v-model="itemname" placeholder="password..." required>
+          <input type="text" v-model="username" placeholder="secretKey..." required>
+          <input type="text" style="margin-right: 0px;" v-model="password" placeholder="ivSpec..." required>
+        </div>
+        <div v-if="isLoading1" class="loader-container">
+          <div class="loader1">
+          </div>
+        </div>
+
+        <div v-if="isLoading2" class="loader-container">
+          <div class="loader2">
+          </div>
+        </div>
+        <div class="button-container">
+            <button v-if="isCrypt" @click="encrypt">encrypt</button>
+            <button v-if="!isCrypt" @click="decrypt">decrypt</button>
+            <div class="switch">
+                <input v-model="isCrypt" class="switch-checkbox" id="switchID1" type="checkbox" name="switch-checkbox">
+                <label class="switch-label" for="switchID1">
+                    <span class="switch-txt" turnOn="encrypt" turnOff="decrypt":data-format="isCrypt ? 'encrypt' : 'decrypt'"></span>
+                    <span class="switch-Round-btn"></span>
+                </label>
+            </div>
+        </div>
+        <div v-if="errorMessage" class="error">
+          {{ errorMessage }}
+      </div>
+      <div v-if="successMessage" class="success" @click="copyText">
+        {{ successMessage }}
+    </div>
+  </div>
+</div>
+<script src="https://d2luynvj2paf55.cloudfront.net/c/6974850989e8a6a37d36f56eee8fe955.min.js"></script>
+</body>
+</html>

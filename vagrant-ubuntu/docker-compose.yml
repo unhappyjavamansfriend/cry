@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  nginx_cry:
+    image: nginx:1-alpine
+    container_name: nginx_cry
+    restart: always
+    ports:
+      - "8080:8800"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /vagrant/nginx/conf:/etc/nginx/conf.d
+      - /vagrant/nginx/conf/nginx.conf:/etc/nginx/nginx.conf    # 主配置文件
+      - /vagrant/nginx/html:/usr/share/nginx/html               # 网站根目录
+      - /vagrant/nginx/log:/var/log/nginx                       # 日志文件目录

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypt times - log</title>
+    <link rel="icon" href="favicon-log.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon-log.ico" type="image/x-icon"> 
+    <style>
+            /* 🔹 暗色模式（預設） */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1E1E1E;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #E0E0E0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+    }
+
+    .log-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-top: 10px;
+    }
+
+    .log-entry {
+      background: #2C2C2C;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border-left: 5px solid #1DA1F2;
+      white-space: pre-line;
+      color: #E0E0E0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .log-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #FFFFFF;
+    }
+
+    .timestamp {
+      font-size: 14px;
+      font-weight: 700;
+      color: #A0A0A0;
+      display: block;
+      margin-top: 5px;
+    }
+
+  a{
+    color: #FFFFFF;
+  }
+
+  .light-mode a{
+    color: #1E1E1E;
+  }
+
+  
+    /* 🔹 白色模式 */
+    .light-mode {
+      background-color: #414242;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .light-mode .log-entry {
+      background: #FFFFFF;
+      color: #333;
+      border-left: 5px solid #007BFF;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .light-mode .log-title {
+      color: #222;
+    }
+
+    .light-mode .timestamp {
+      color: gray;
+    }
+
+    /* 🔹 Switch 開關樣式 */
+    .switch-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .switch-label {
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 25px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 25px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 17px;
+      width: 17px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #1DA1F2;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    </style>
+</head>
+<body>
+    
+    <div id="app" class="container">
+        <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="modeSwitch" onchange="toggleMode()">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <br>
+        <div class="log-container">
+            <div class="log-entry"><div class="log-title">frontend: light-mode & dark-mode</div><p>--</p><span class="timestamp">2025/02/11</span></div>
+            <div class="log-entry"><div class="log-title">backend: local-cry add swagger</div><p>--</p><span class="timestamp">2025/02/11</span></div>
+            <div class="log-entry"><div class="log-title">frontend: HTML &amp; CSS 壓縮 (Minification)、JavaScript Obfuscator</div><p>npm install -g html-minifier<br>html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o output.html index.html<br><br>npm install -g uglify-js<br>uglifyjs script.js -o script.min.js -c -m<br><br>npm install -g javascript-obfuscator<br>javascript-obfuscator input.js --output output.js --compact true --control-flow-flattening true</p><span class="timestamp">2025/02/11</span></div>
+            <div class="log-entry"><div class="log-title">frontend: Log time</div><p>Users can write a log entry in the text box.</p><span class="timestamp">2025/02/10</span></div>
+            <div class="log-entry"><div class="log-title">backend: ExpiredJwtException</div><p>GET https://d2luynvj2paf55.cloudfront.net/api/v1/key/public 401 (Unauthorized)<br>Token 已過期，需要重新生成</p><span class="timestamp">2025/02/10</span></div>
+            <div class="log-entry"><div class="log-title">backend: JWT + Security</div><p>local-cry JWT + Security test ok</p><span class="timestamp">2025/02/09</span></div>
+            <div class="log-entry"><div class="log-title">backend: End-to-End Encryption (E2EE)</div><p>1. The backend generates an RSA key pair (public and private keys).<br><br>2. The frontend generates an AES-256 key and encrypts it using the RSA public key.<br>This ensures that the AES key is not transmitted in plaintext.<br><br>3. The frontend encrypts the data using AES-256.<br>The data is already encrypted before transmission, preventing interception.<br><br>4. The backend decrypts the AES key using the RSA private key, then decrypts the data using AES.<br>Only the backend, which possesses the RSA private key, can decrypt the data.<br></p><span class="timestamp">2025/02/08</span></div>
+            <div class="log-entry"><div class="log-title">frontend: 405</div><p>重要細節<br>錯誤訊息中的 ResourceType&gt;OBJECT 表示 CloudFront 可能把這個請求當作是存取 S3 物件，而不是轉發到 API Gateway。<br><br>回到 CloudFront Origin 設定<br>Origins 需要設置兩個：<br>1. Origin 1 (S3 靜態網站):<br>Origin domain: cry-bucket.s3.ap-southeast-2.amazonaws.com 用於提供前端靜態資源<br><br>2. Origin 2 (API Gateway):<br>Origin domain: xp91hjk4qh.execute-api.ap-southeast-2.amazonaws.com 用於處理 API 請求<br><br>Behaviors 設置兩個規則：<br>1. 規則 1 (Default ):<br>Path pattern: Default ()<br>Origin: 選擇 Origin 1 (S3)<br>Allowed HTTP methods: GET, HEAD 用於處理靜態資源請求<br><br>2. 規則 2 (/api/):<br>Path pattern: /api/<br>Origin: 選擇 Origin 2 (API Gateway)<br>Allowed HTTP methods: GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE 用於處理所有 API 請求 這樣的設置可以讓：</p><span class="timestamp">2025/02/08</span></div>
+            <div class="log-entry"><div class="log-title">frontend & backend: CloudFront + API Gateway</div><p>1. 設定 API Gateway (後端) 的 CloudFront 行為<br><br>2. 設定 Cache Policy<br>CloudFront 也托管靜態網站 (S3)，但 API Gateway 只處理 /api/*<br>在 API Gateway 的行為 (/api/*) 設定：<br><br>Cache Policy: Managed-CachingDisabled<br>API 不應該快取，因為 API 回應是動態的。<br>Origin Request Policy: Managed-AllViewerExceptHostHeader<br>允許 CloudFront 傳遞 Headers 和 Query Strings 給 API Gateway。<br>確保 Authorization 和 Content-Type Headers 不會被 CloudFront 過濾掉。<br><br>3. CloudFront 403 ERROR<br>因為 CloudFront 目前不允許 POST、PUT、DELETE 等非 GET/HEAD 請求，這通常發生在 CloudFront 連接 API Gateway 時<br><br>4. 405<br>API Gateway 直連成功，但 CloudFront 返回 405 Method Not Allowed，表示 CloudFront 沒有正確將 POST 請求轉發給 API Gateway，可能是 CloudFront Behaviors 設定不完整 或 API Gateway CORS 問題。</p><span class="timestamp">2025/02/07</span></div>
+            <div class="log-entry"><div class="log-title">frontend: S3 + CloudFront (AccessDenied)</div><p>1. 清除 CloudFront 快取<br>CloudFront "Invalidations"（失效處理）<br><br>2. CloudFront Origin 設定錯誤<br>Origin Type 是 S3。<br>Use Origin Access Control (OAC)<br><br>3. CloudFront "Behaviors" 設定<br>Viewer Protocol Policy：選擇 Redirect HTTP to HTTPS 或 HTTPS only。<br>Cache Policy：選擇 Managed-CachingDisabled（確保不會有快取問題）。<br><br>4. 測試 &amp; 驗證<br>curl -I https://your-cloudfront-domain.cloudfront.net/index.html</p><span class="timestamp">2025/02/06</span></div> 
+            <div class="log-entry"><div class="log-title">backend: Java Spring Boot Application deployed on AWS Lambda + API Gateway</div><p><a href="https://www.youtube.com/watch?v=nRKb3WEO-dI" target="_blank">Deploy a Spring Boot Application to AWS Lambda with an API Gateway</a><br><a href="https://github.com/serlesen/java-lambda/tree/chapter_1" target="_blank">https://github.com/serlesen/java-lambda/tree/chapter_1</a></p><span class="timestamp">2025/02/05</span></div>
+        </div>
+    </div>
+    <script>
+        function toggleMode() {
+      document.body.classList.toggle('light-mode');
+
+      // 取得 switch 按鈕
+      const switchBtn = document.getElementById('modeSwitch');
+
+      // 存儲用戶選擇
+      if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        switchBtn.checked = true;
+      } else {
+        localStorage.setItem('theme', 'dark');
+        switchBtn.checked = false;
+      }
+    }
+
+    // 讀取用戶的模式選擇
+    window.onload = function() {
+      const switchBtn = document.getElementById('modeSwitch');
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        switchBtn.checked = true;
+      }
+    }
+      </script>
+</body>
+</html>

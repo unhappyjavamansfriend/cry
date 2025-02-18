@@ -1,0 +1,36 @@
+logging:
+  level:
+    org.springdoc: DEBUG  # 添加這行來查看更詳細的 Swagger 相關日誌
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+server:
+  port: 64202
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  application:
+    name: Cry-service
+  banner:
+    location: classpath:banner.txt
+  security:
+    filter:
+      order: 10 # 設置較高的數值，確保 security filter 在適當的順序執行
+key:
+  path:
+    public: public_key.pem
+    private: private_key.pem
+jwt:
+  secret: 9hfSSZ/E7ndfkX97u5RpDGxTzJeZezxYx8QonBUMwTc=
+  ttl: 36000000
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html # 改回使用 .html 後綴
+    disable-swagger-default-url: false # 允許默認 URL
+    urls:
+      - url: /v3/api-docs
+        name: API Docs
